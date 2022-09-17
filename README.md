@@ -1,0 +1,2 @@
+# FGC-2022
+Code for fgc 2022 - TEAM VIETNAM
