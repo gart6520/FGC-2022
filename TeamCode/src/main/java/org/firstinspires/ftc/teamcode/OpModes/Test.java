@@ -2,64 +2,35 @@ package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.TouchSensor;
-
-import org.firstinspires.ftc.teamcode.Subsystems.Drivebase;
-import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 
 @TeleOp(name = "Test")
 public class Test extends OpMode {
-
-    private CRServo intakeLeft;
-    private CRServo intakeRight;
-    private Drivebase drivebase;
-    private TouchSensor upLimit;
-    private TouchSensor downLimit;
-    private Intake intake;
-    private boolean atAngle = false;
+    private DcMotor sr1;
+    private DcMotor sr2;
     @Override
     public void init() {
-        intake = new Intake(this);
-        intake.init();
+        sr1 = hardwareMap.get(DcMotor.class, "sr1");
+        sr2 = hardwareMap.get(DcMotor.class, "sr2");
 
-        upLimit = hardwareMap.get(TouchSensor.class, "upLimit");
-        downLimit = hardwareMap.get(TouchSensor.class, "downLimit");
+        sr1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        sr2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        drivebase = new Drivebase(this);
-        drivebase.init();
+        sr1.setDirection(DcMotorSimple.Direction.FORWARD);
+        sr2.setDirection(DcMotorSimple.Direction.FORWARD);
     }
 
     @Override
     public void loop() {
-        double angle = 0;
-        double MAX_SPEED = 0.8;
-        if(gamepad1.left_bumper) {
-            MAX_SPEED = 1;
-        }
-        double left = gamepad1.left_stick_y*MAX_SPEED;
-        double right = gamepad1.right_stick_y*MAX_SPEED;
-        if(upLimit.isPressed()) {
-            intake.reverseIntake(DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.FORWARD);
-        }
+        double left = gamepad1.left_stick_y;
+        double right = gamepad1.right_stick_y;
 
-        else if(downLimit.isPressed()) {
-            intake.reverseIntake(DcMotorSimple.Direction.FORWARD, DcMotorSimple.Direction.REVERSE);
-        }
+        sr1.setPower(left);
+        sr2.setPower(right);
 
-        if(gamepad1.triangle) {
-            angle = 0.8;
-        }
-        else if (gamepad1.cross) {
-            angle = -0.8;
-        }
-
-        intake.movingIntake(angle);
-        drivebase.tankController(right, left);
-        telemetry.addData("Speed", angle);
-        telemetry.addData("left", left);
         telemetry.addData("right", right);
+        telemetry.addData("left", left);
         telemetry.update();
     }
 }

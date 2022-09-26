@@ -37,14 +37,9 @@ public final class Constants {
         public static final double KI = 0;
         public static final double KD = 0;
         public static final double MAX_INTERGRAL = 0;
-        public static final double MIN_INTERGRAL = 0;
+        public static final double MIN_INTERGRAL = 1;
         public static final double VELOCITY_TOLERANCE = 0.05;
         public static final double POSITION_TOLERANCE = 0.05;
-        public static final double HOOD_TOLERANCE = 0.01;
-    }
-
-    public static final class COLLISION {
-        public static final double KD = 0.5f;
     }
 
     public static final class ROTATION {
@@ -67,8 +62,13 @@ public final class Constants {
         public static final double SINK_RADIUS = 2 * Math.sqrt(3) / 5;
     }
 
-    public static final class ROBOT_MOVEMENT {
-        public static final double MN_MAX_V = 0.6;
-        public static final double AO_MAX_V = 0.8;
+    public static final class HOOD_CONST {
+        public static final double HD_KP = 1.3;
+        public static final double HD_KI = 0;
+        public static final double HD_KD = 0;
+
+        public static final double P_TOLERANCE = 0.08;
+        public static final double V_TOLERANCE = 0.05;
     }
+
 }
