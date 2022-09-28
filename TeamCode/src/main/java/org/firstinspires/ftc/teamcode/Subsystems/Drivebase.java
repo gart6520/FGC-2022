@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-
+// Our basic drivebase, contains 4 motors, 2 motors for each side.
 public class Drivebase {
     private DcMotorEx mr1;
     private DcMotorEx mr2;
@@ -28,22 +28,24 @@ public class Drivebase {
     }
 
     public void init() {
-
         mr1 = hardwareMap.get(DcMotorEx.class, "mr1");
         mr2 = hardwareMap.get(DcMotorEx.class, "mr2");
         mr3 = hardwareMap.get(DcMotorEx.class, "mr3");
         mr4 = hardwareMap.get(DcMotorEx.class, "mr4");
 
+        // Reversw the direction of 1 side of the robot to keep 2 sides move in a sigle direction
         mr1.setDirection(DcMotorSimple.Direction.FORWARD);
         mr2.setDirection(DcMotorSimple.Direction.FORWARD);
         mr3.setDirection(DcMotorSimple.Direction.REVERSE);
         mr4.setDirection(DcMotorSimple.Direction.FORWARD);
 
+        // When the control hub stops providing voltage to the motor, they will stop immediately
         mr1.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         mr2.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         mr3.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         mr4.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
+        // Our pid controller to order the robot moving a certain angle to face the sink. We implement this in order to improve our efficiency of shooting balls.
         controller.setTolerance(TOLERANCE);
         controller.setIntegrationBounds(INTERGRAL_MIN, INTERGRAL_MAX);
     }
@@ -70,6 +72,7 @@ public class Drivebase {
         mr4.setPower(right);
     }
 
+    // Return the value of encoder of both sides
     public int getLeftPosition() {
         return mr1.getCurrentPosition();
     }
@@ -78,11 +81,13 @@ public class Drivebase {
         return mr3.getCurrentPosition();
     }
 
+    // Using the encoder to return necessary velocity of the wheels to face the sink
     public double rotateAngle(double angle, double setPoint) {
         controller.setSetPoint(setPoint);
         return controller.calculate(angle);
     }
 
+    // Check whether our robot has faced the sink or not.
     public boolean atSetpoint() {
         return controller.atSetPoint();
     }

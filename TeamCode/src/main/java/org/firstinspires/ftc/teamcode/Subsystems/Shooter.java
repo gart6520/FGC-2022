@@ -10,6 +10,7 @@ import static org.firstinspires.ftc.teamcode.Constants.SHOOT.*;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
+// Our class to control the shooter. Our shooter using 2 dc motor and a pid controller to reach a certain velocity.
 public class Shooter {
     private DcMotorEx sr1;
     private DcMotorEx sr2;
@@ -35,15 +36,18 @@ public class Shooter {
         controller.setIntegrationBounds(MIN_INTERGRAL, MAX_INTERGRAL);
     }
 
+    // Both motors move with the same speed and direction.
     public void shoot(double velocity) {
         sr1.setVelocity(velocity, AngleUnit.RADIANS);
         sr2.setVelocity(velocity, AngleUnit.RADIANS);
     }
 
+    // Return the angle rates of the motor return by encoder.
     public double getVelocity() {
         return sr1.getVelocity(AngleUnit.RADIANS);
     }
 
+    // Use the
     public double calculate(double position, double measurement) {
         return controller.calculate(measurement, position);
     }
