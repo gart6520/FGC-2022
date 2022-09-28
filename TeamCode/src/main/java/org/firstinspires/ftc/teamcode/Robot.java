@@ -47,7 +47,7 @@ public class Robot {
     }
 
     public void init() {
-        intake.init();
+//        intake.init();
         drivebase.init();
         loader.init();
         imu.init();
@@ -99,21 +99,7 @@ public class Robot {
         }
 
         if(cross) {
-            ikV = 1;
-            if(gamepad1.left_trigger > 0.8) {
-                ikV = -ikV;
-            }
-            else if(gamepad1.right_bumper) {
-                if(intake.getUpLimit()) {
-                    ikLeft = DcMotorSimple.Direction.REVERSE;
-                    ikRight = DcMotorSimple.Direction.FORWARD;
-                }
-
-                else if(intake.getDownLimit()) {
-                    ikLeft = DcMotorSimple.Direction.FORWARD;
-                    ikRight = DcMotorSimple.Direction.REVERSE;
-                }
-            }
+            ikV = 0.5;
         }
 
         if(gamepad2.square) {
@@ -135,8 +121,9 @@ public class Robot {
         }
 
         if(hdAutoMode) {
-            VoltSetpoint = ProjectileCalculator.getAngle()*Math.PI/180;
-            VoltSetpoint = 445.5*(VoltSetpoint - 270)/(Math.pow(VoltSetpoint, 2)-2700*VoltSetpoint-36450);
+            VoltSetpoint = ProjectileCalculator.getAngle()*180/Math.PI;
+            VoltSetpoint = 317 - VoltSetpoint;
+            VoltSetpoint = 445.5*(VoltSetpoint - 270)/(Math.pow(VoltSetpoint, 2)-270*VoltSetpoint-36450);
 
             hdV = hood.speedCalculator(VoltSetpoint, hood.getPotenVoltage());
             if(hood.atSetpoint()) {
@@ -155,15 +142,16 @@ public class Robot {
 
         if(gamepad2.left_trigger > 0.8) {
             load = -load;
+            ikV = -ikV;
         }
 
-        intake.reverseIntake(ikLeft, ikRight);
+//        intake.reverseIntake(ikLeft, ikRight);
         intake.movingIntake(ikV);
         drivebase.tankController(right, left);
         hood.calibrate(hdV);
         loader.load(load);
         shooter.shoot(shoot);
-        telemetry.addData("intake speed", ikV);
+//        telemetry.addData("Intake speed", ikV);
         telemetry.addData("Shooter angle rate", shooter.getVelocity());
         telemetry.addData("Hood speed", hdV);
         telemetry.addData("left speed", left);
