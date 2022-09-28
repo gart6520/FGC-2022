@@ -146,12 +146,14 @@ public class Robot {
             ikV = -ikV;
         }
 
+
         intake.movingIntake(ikV);
         drivebase.tankController(right, left);
         hood.calibrate(hdV);
         loader.load(load);
         shooter.shoot(shoot);
 
+        telemetry.addData("Intake speed", ikV);
         telemetry.addData("Shooter angle rate", shooter.getVelocity());
         telemetry.addData("Hood speed", hdV);
         telemetry.addData("left speed", left);
