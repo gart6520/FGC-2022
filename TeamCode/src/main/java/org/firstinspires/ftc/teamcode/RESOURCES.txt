@@ -1,0 +1,15 @@
+Some useful resources for better understanding of our program
+
+# Learning java : Learn Java for FTC - Alan G.Smith https://github.com/alan412/LearnJavaForFTC/blob/master/LearnJavaForFTC.pdf
+
+# FGC wiring guide : https://www.firstinspires.org/sites/default/files/uploads/resource_library/ftc/robot-wiring-guide.pdf
+
+For advanced purpose only:
+
+# Learning odometry (robot navigation) :
+
+** Youtube:  https://www.youtube.com/watch?app=desktop&v=GEZBYHVHmFQ
+
+**Documents and libraries:
+https://docs.ftclib.org/ftclib/
+https://acme-robotics.gitbook.io/road-runner/quickstart/introduction

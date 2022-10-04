@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.geometry.Pose2d;
 import com.arcrobotics.ftclib.geometry.Rotation2d;
 import com.arcrobotics.ftclib.geometry.Twist2d;
 
+// Class for odometry
 public class Odometry {
     private Pose2d robotPose;
     private final Rotation2d gyroOffset;
@@ -29,10 +30,12 @@ public class Odometry {
         this.previousAngle = gyroInitialAngle;
     }
 
+    // Return the position of the robot
     public Pose2d getRobotPose() {
         return robotPose;
     }
 
+    // Update the measurements from encoder and IMU
     public Pose2d update(double leftLocation, double rightLocation, double perpenLocation, Rotation2d currentIMU) {
         double delta_left = leftLocation - left_previous;
         double delta_right = rightLocation - right_previous;
@@ -54,18 +57,21 @@ public class Odometry {
         return robotPose;
     }
 
+    // Return the least-value angle between the heading of robot and the sink
     public double getRelativeAngle() {
         double d_x = robotPose.getX() - SINK_X;
         double d_y = robotPose.getY() - SINK_Y;
         return Math.atan2(d_y, d_x);
     }
 
+    // Return the distance of the robot to the sink
     public double getDistance() {
         double d_x = robotPose.getX() - SINK_X;
         double d_y = robotPose.getY() - SINK_Y;
         return Math.hypot(d_y, d_x) - SINK_RADIUS;
     }
 
+    // Reset the position of the robot
     public void resetPosition(double x, double y, double heading) {
         robotPose = new Pose2d(x, y, new Rotation2d(heading));
     }

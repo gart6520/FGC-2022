@@ -19,6 +19,7 @@ public class IMU {
         this.hardwareMap = opMode.hardwareMap;
     }
 
+    // Initialize the IMU
     public void init() {
         imu = hardwareMap.get(BNO055IMU.class, "IMU");
 

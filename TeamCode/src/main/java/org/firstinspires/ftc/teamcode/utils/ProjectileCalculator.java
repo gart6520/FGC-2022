@@ -2,7 +2,8 @@ package org.firstinspires.ftc.teamcode.utils;
 
 import static org.firstinspires.ftc.teamcode.Constants.PROJECTILE_MOTION.*;
 
-// The base calculator for the shooting trajectory. This class will return the necessary angle rates and the vertical angle of the hood.
+// The base calculator for the shooting trajectory.
+// This class will return the necessary angle rates and the vertical angle of the hood.
 public class ProjectileCalculator {
     private static double d;
     private static double h;

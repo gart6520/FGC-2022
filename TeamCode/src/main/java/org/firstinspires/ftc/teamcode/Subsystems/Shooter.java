@@ -13,7 +13,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 // Our class to control the shooter. Our shooter using 2 dc motor and a pid controller to reach a certain velocity.
 public class Shooter {
     private DcMotorEx sr1;
-    private DcMotorEx sr2;
     private PIDController controller;
     private HardwareMap hardwareMap;
 
@@ -24,30 +23,27 @@ public class Shooter {
 
     public void init() {
         sr1 = hardwareMap.get(DcMotorEx.class, "sr1");
-        sr2 = hardwareMap.get(DcMotorEx.class, "sr2");
 
         sr1.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        sr2.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
-        sr1.setDirection(DcMotorSimple.Direction.FORWARD);
-        sr2.setDirection(DcMotorSimple.Direction.FORWARD);
+        sr1.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        // PID controller for shooting
         controller.setTolerance(POSITION_TOLERANCE, VELOCITY_TOLERANCE);
         controller.setIntegrationBounds(MIN_INTERGRAL, MAX_INTERGRAL);
     }
 
     // Both motors move with the same speed and direction.
     public void shoot(double velocity) {
-        sr1.setVelocity(velocity, AngleUnit.RADIANS);
-        sr2.setVelocity(velocity, AngleUnit.RADIANS);
+        sr1.setPower(velocity);
     }
 
-    // Return the angle rates of the motor return by encoder.
+    // Return the angle rates of the motor using encoder.
     public double getVelocity() {
         return sr1.getVelocity(AngleUnit.RADIANS);
     }
 
-    // Use the
+    // Use the pid controller to allow the shooter to reach the needed velocity with high accuracy
     public double calculate(double position, double measurement) {
         return controller.calculate(measurement, position);
     }
